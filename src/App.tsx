@@ -1,10 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './index.css';
 
 function App() {
   const [x, setX] = useState<Array<number>>([]);
   const [o, setO] = useState<Array<number>>([]);
   const [nextPlayerMove, setNextPlayerMove] = useState(false);
+  const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const arrayEquals = (a: Array<number>, b: Array<number>) => {
+    return Array.isArray(a.sort()) &&
+      Array.isArray(b.sort()) &&
+      a.every((val, index) => val === b[index]);
+  };
+
+  useEffect(() => { // x player win cheker
+    if (winningCombinations.map((e) => arrayEquals(e, x)).includes(true)) {
+      alert("player x win");
+    };
+  }, [x]);
+
+  useEffect(() => { // o player win cheker
+    if (winningCombinations.map((e) => arrayEquals(e, o)).includes(true)) {
+      alert("player o win");
+    };
+  }, [o]);
+
+  console.log(arrayEquals([2, 1, 0], [0, 1, 2]))
 
   const clickToSquare = (id: number) => {
     if (nextPlayerMove) {
@@ -14,7 +45,7 @@ function App() {
     else {
       o && setO([...o, id]);
       setNextPlayerMove(true);
-    }
+    };
   };
 
   return (
