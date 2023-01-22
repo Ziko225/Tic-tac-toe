@@ -10,42 +10,51 @@ function App() {
     [3, 4, 5],
     [6, 7, 8],
     [0, 3, 6],
-    [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6],
   ];
 
-  const arrayEquals = (a: Array<number>, b: Array<number>) => {
-    return Array.isArray(a.sort()) &&
-      Array.isArray(b.sort()) &&
-      a.every((val, index) => val === b[index]);
+  const isArrayHaveWinCombination = (array: Array<number>) => {
+    if (array.length >= 3) {
+      return winningCombinations.map((winArray) =>
+        array.includes(winArray[0])
+        && array.includes(winArray[1])
+        && array.includes(winArray[2])
+      ).includes(true)
+    }
   };
 
   useEffect(() => { // x player win cheker
-    if (winningCombinations.map((e) => arrayEquals(e, x)).includes(true)) {
+    if (isArrayHaveWinCombination(x)) {
       alert("player x win");
     };
   }, [x]);
 
   useEffect(() => { // o player win cheker
-    if (winningCombinations.map((e) => arrayEquals(e, o)).includes(true)) {
+    if (isArrayHaveWinCombination(o)) {
       alert("player o win");
     };
   }, [o]);
 
-  console.log(arrayEquals([2, 1, 0], [0, 1, 2]))
-
   const clickToSquare = (id: number) => {
+    if (x.includes(id) || o.includes(id)) {
+      return
+    };
+
     if (nextPlayerMove) {
       x && setX([...x, id]);
       setNextPlayerMove(false);
-    }
-    else {
+    } else {
       o && setO([...o, id]);
       setNextPlayerMove(true);
     };
+  };
+
+  const resetGame = () => {
+    setX([]);
+    setO([]);
   };
 
   return (
@@ -77,10 +86,8 @@ function App() {
       <button onClick={() => clickToSquare(8)} className="square">
         {x && x.includes(8) ? "✕" : null}{o && o.includes(8) ? "◯" : null}
       </button>
-      <button onClick={() => setX([])}>reset ✕</button>
-      <button onClick={() => setO([])}>reset ◯</button>
+      <button onClick={() => resetGame()}>reset</button>
     </div>
-
   );
 };
 
