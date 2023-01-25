@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './index.css';
-import { horizontalCheck, verticalCheck } from './turnChecker';
+import { horizontalCheck, verticalCheck, diagonalCheck, randomTurn } from './turnChecker';
 
 function App() {
     const [x, setX] = useState<Array<number>>([]);
@@ -44,13 +44,12 @@ function App() {
         if (x.includes(square) || o.includes(square)) {
             return
         };
-        setTurnNumber(turnNumber + 1)
-        if (!nextPlayerO) {
+        if (turnNumber === 0 || turnNumber === 2 || turnNumber === 4 || turnNumber === 6 || turnNumber === 8) {
             x && setX([...x, square]);
-            setNextPlayerO(true);
+            setTurnNumber(turnNumber + 1)
         } else {
             o && setO([...o, square]);
-            setNextPlayerO(false);
+            setTurnNumber(turnNumber + 1)
         };
     };
 
@@ -63,46 +62,83 @@ function App() {
 
     const cpuHardTurn = () => { // cpu lvl hard
         const randomNumber = (Math.random() * 10);
-        if (turnNumber === 0) { // player X
+        // player X turn 0
+        if (turnNumber === 0) {
             clickToSquare(4);
         };
-
-        if (turnNumber === 1 && !x.includes(4)) { // player O
+        // player O turn 1
+        if (turnNumber === 1 && !x.includes(4)) {
             clickToSquare(4);
         } else if (turnNumber === 1 && x.includes(4)) {
             randomNumber > 5 ? clickToSquare(0) : clickToSquare(2);
         };
-
-        if (turnNumber === 2 && !x.includes(4) && !o.includes(4)) { // player X
+        // player X turn 2
+        if (turnNumber === 2 && !x.includes(4) && !o.includes(4)) {
             clickToSquare(4);
         } else if (turnNumber === 2 && !o.includes(0) && !o.includes(8)) {
             randomNumber >= 5 ? clickToSquare(0) : clickToSquare(8);
         } else if (turnNumber === 2 && !o.includes(2) && !o.includes(6)) {
             randomNumber >= 5 ? clickToSquare(2) : clickToSquare(6);
         };
-
-        if (turnNumber === 3 && horizontalCheck(x)! >= 0) {
-            clickToSquare(horizontalCheck(x)!)
-            console.log(horizontalCheck(x))
-        } else if (turnNumber === 3 && !x[1]) {
+        // player O turn 3
+        if (turnNumber === 3 && horizontalCheck(x, o)! >= 0) {
+            clickToSquare(horizontalCheck(x, o)!);
+        } else if (turnNumber === 3 && verticalCheck(x, o)! >= 0) {
+            clickToSquare(verticalCheck(x, o)!);
+        } else if (turnNumber === 3 && !o.includes(4) && diagonalCheck(x, o)! >= 0) {
+            clickToSquare(diagonalCheck(x, o)!);
+        } else if (turnNumber === 3 && !x.includes(1)) {
             clickToSquare(1);
         } else if (turnNumber === 3) {
             clickToSquare(7);
         };
-
-        if (turnNumber === 4 && horizontalCheck(o)! >= 0) {
-            clickToSquare(horizontalCheck(o)!)
-            clickToSquare(verticalCheck(o)!)
+        // player X turn 4
+        if (turnNumber === 4 && horizontalCheck(o, x)! >= 0) {
+            clickToSquare(horizontalCheck(o, x)!);
+        } else if (turnNumber === 4 && verticalCheck(o, x)! >= 0) {
+            clickToSquare(verticalCheck(o, x)!);
+        } else if (turnNumber === 4 && diagonalCheck(o, x)! >= 0) {
+            clickToSquare(diagonalCheck(o, x)!);
         };
-
-        if (turnNumber === 5 && horizontalCheck(x)! >= 0) {
-            clickToSquare(horizontalCheck(x)!)
-            clickToSquare(verticalCheck(o)!)
+        // player O turn 5
+        if (turnNumber === 5 && horizontalCheck(x, o)! >= 0) {
+            clickToSquare(horizontalCheck(x, o)!);
+        } else if (turnNumber === 5 && verticalCheck(x, o)! >= 0) {
+            clickToSquare(verticalCheck(x, o)!);
+        } else if (turnNumber === 5 && diagonalCheck(x, o)! >= 0) {
+            clickToSquare(diagonalCheck(x, o)!);
+        } else if (turnNumber === 5) {
+            clickToSquare(randomTurn(x, o)!);
         };
-
-        if (turnNumber === 6 && horizontalCheck(o)! >= 0) {
-            clickToSquare(horizontalCheck(o)!)
-            clickToSquare(verticalCheck(o)!)
+        // player X turn 6
+        if (turnNumber === 6 && horizontalCheck(o, x)! >= 0) {
+            clickToSquare(horizontalCheck(o, x)!);
+        } else if (turnNumber === 6 && verticalCheck(o, x)! >= 0) {
+            clickToSquare(verticalCheck(o, x)!);
+        } else if (turnNumber === 6 && diagonalCheck(o, x)! >= 0) {
+            clickToSquare(diagonalCheck(o, x)!);
+        } else if (turnNumber === 6) {
+            clickToSquare(randomTurn(x, o)!);
+        };
+        // player O turn 7
+        if (turnNumber === 7 && horizontalCheck(x, o)! >= 0) {
+            clickToSquare(horizontalCheck(x, o)!);
+        } else if (turnNumber === 7 && verticalCheck(x, o)! >= 0) {
+            clickToSquare(verticalCheck(x, o)!);
+        } else if (turnNumber === 7 && diagonalCheck(x, o)! >= 0) {
+            clickToSquare(diagonalCheck(x, o)!);
+        } else if (turnNumber === 7) {
+            clickToSquare(randomTurn(x, o)!);
+        };
+        // player X turn 8
+        if (turnNumber === 8 && horizontalCheck(o, x)! >= 0) {
+            clickToSquare(horizontalCheck(o, x)!);
+        } else if (turnNumber === 8 && verticalCheck(o, x)! >= 0) {
+            clickToSquare(verticalCheck(o, x)!);
+        } else if (turnNumber === 8 && diagonalCheck(x, x)! >= 0) {
+            clickToSquare(diagonalCheck(o, x)!);
+        } else if (turnNumber === 8) {
+            clickToSquare(randomTurn(x, o)!);
         };
     };
 
@@ -136,7 +172,7 @@ function App() {
                 {x && x.includes(8) ? "✕" : null}{o && o.includes(8) ? "◯" : null}
             </button>
             <button onClick={() => resetGame()}>reset</button>
-            <button onClick={() => cpuHardTurn()}>cpu turn</button>
+            <button onClick={() => cpuHardTurn()}>Hard cpu turn</button>
         </div>
     );
 };
