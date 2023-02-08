@@ -5,6 +5,7 @@ function App() {
     const emptyBoard = Array(9).fill(null);
     const [board, setBoard] = useState<Array<string | null>>(emptyBoard);
     const [turnNumber, setTurnNumber] = useState(0);
+    const isTurnNumberEven = turnNumber % 2 === 0;
 
     const calculateWin = (board: Array<string | null>) => {
         const winCombos = [
@@ -29,18 +30,18 @@ function App() {
     useEffect(() => { // game checker
         if (calculateWin(board)) {
             alert(`player ${calculateWin(board)} win`);
-            resetGame()
+            resetGame();
         } else if (turnNumber === 9) {
             alert("draw");
             resetGame();
-        }
+        };
     }, [board, turnNumber]);
 
     const clickToSquare = (square: number) => {
         if (board[square]) {
-            return false
+            return false;
         };
-        if (turnNumber % 2 === 0) {
+        if (isTurnNumberEven) {
             setBoard([...board.slice(0, square), "X", ...board.slice(square + 1),]);
             setTurnNumber(turnNumber + 1);
         } else {
@@ -54,12 +55,49 @@ function App() {
         setBoard(emptyBoard);
     };
 
+    const minimaxAlgorithm = (board: Array<string | null>, maximizing: boolean, player: string) => {
+        const winner = calculateWin(board);
+        const opponent = player === 'X' ? 'O' : 'X';
+
+        if (winner === player) return { square: -1, score: 1 };
+        if (winner === opponent) return { square: -1, score: -1 };
+        if (board.join("").length === 9) return { square: -1, score: 0 };
+
+        const best = { square: -1, score: maximizing ? -3 : 3 };
+        for (let i = 0; i < board.length; i++) {
+            if (board[i]) {
+                continue;
+            };
+            board[i] = maximizing ? player : opponent;
+            const score = minimaxAlgorithm(board, !maximizing, player).score;
+            board[i] = null;
+
+            if (maximizing) {
+                if (score > best.score) {
+                    best.score = score;
+                    best.square = i;
+                };
+            } else {
+                if (score < best.score) {
+                    best.score = score;
+                    best.square = i;
+                };
+            };
+        };
+        return best;
+    };
+
+    const aiTurn = () => {
+        clickToSquare(minimaxAlgorithm(board, true, isTurnNumberEven ? "X" : "O").square);
+    };
+
     return (
         <div className="grid">
             {Array(9).fill("square").map((element, index) => {
                 return <button key={index} onClick={() => clickToSquare(index)} className={element}>{board[index]}</button>
             })}
             <button onClick={() => resetGame()}>reset</button>
+            <button onClick={() => aiTurn()}>AI</button>
         </div>
     );
 };
