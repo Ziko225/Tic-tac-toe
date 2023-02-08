@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './index.css';
 
 function App() {
-    const emptyBoard = [null, null, null, null, null, null, null, null, null]
+    const emptyBoard = Array(9).fill(null);
     const [board, setBoard] = useState<Array<string | null>>(emptyBoard);
     const [turnNumber, setTurnNumber] = useState(0);
 
-    const checkWin = (player: Array<number>) => {
+    const calculateWin = (board: Array<string | null>) => {
         const winCombos = [
             [0, 1, 2],
             [3, 4, 5],
@@ -17,63 +17,48 @@ function App() {
             [0, 4, 8],
             [2, 4, 6],
         ];
-
+        return winCombos.map((winCombo) => {
+            if (board[winCombo[0]]
+                && board[winCombo[0]] === board[winCombo[1]]
+                && board[winCombo[0]] === board[winCombo[2]]) {
+                return board[winCombo[0]]
+            }
+        }).join("") || null
     };
 
+    useEffect(() => { // game checker
+        if (calculateWin(board)) {
+            alert(`player ${calculateWin(board)} win`);
+            resetGame()
+        } else if (turnNumber === 9) {
+            alert("draw");
+            resetGame();
+        }
+    }, [board, turnNumber]);
+
     const clickToSquare = (square: number) => {
+        if (board[square]) {
+            return false
+        };
         if (turnNumber % 2 === 0) {
-            setBoard(
-                [
-                    ...board.slice(0, square),
-                    "X",
-                    ...board.slice(square + 1),
-                ]);
+            setBoard([...board.slice(0, square), "X", ...board.slice(square + 1),]);
             setTurnNumber(turnNumber + 1);
         } else {
-            setBoard(
-                [
-                    ...board.slice(0, square),
-                    "O",
-                    ...board.slice(square + 1),
-                ]);
+            setBoard([...board.slice(0, square), "O", ...board.slice(square + 1),]);
             setTurnNumber(turnNumber + 1);
         };
     };
 
     const resetGame = () => {
         setTurnNumber(0);
-        setBoard(emptyBoard)
+        setBoard(emptyBoard);
     };
 
     return (
         <div className="grid">
-            <button onClick={() => clickToSquare(0)} className="square">
-                {board[0]}
-            </button>
-            <button onClick={() => clickToSquare(1)} className="square">
-                {board[1]}
-            </button>
-            <button onClick={() => clickToSquare(2)} className="square">
-                {board[2]}
-            </button>
-            <button onClick={() => clickToSquare(3)} className="square">
-                {board[3]}
-            </button>
-            <button onClick={() => clickToSquare(4)} className="square">
-                {board[4]}
-            </button>
-            <button onClick={() => clickToSquare(5)} className="square">
-                {board[5]}
-            </button>
-            <button onClick={() => clickToSquare(6)} className="square">
-                {board[6]}
-            </button>
-            <button onClick={() => clickToSquare(7)} className="square">
-                {board[7]}
-            </button>
-            <button onClick={() => clickToSquare(8)} className="square">
-                {board[8]}
-            </button>
+            {Array(9).fill("square").map((element, index) => {
+                return <button key={index} onClick={() => clickToSquare(index)} className={element}>{board[index]}</button>
+            })}
             <button onClick={() => resetGame()}>reset</button>
         </div>
     );
