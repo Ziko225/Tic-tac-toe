@@ -6,7 +6,7 @@
   grid-template-rows: 120px 120px 120px;
 }
 
-.square {
+.grid__square {
   display: flex;
   align-items: center;
   justify-content: center;

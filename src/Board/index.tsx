@@ -8,10 +8,12 @@ const TicTacToe = () => {
     const [board, setBoard] = useState<Array<string | null>>(emptyBoard);
     const [turnNumber, setTurnNumber] = useState(0);
     const isTurnNumberEven = turnNumber % 2 === 0;
+    const [xPlayerWinCounter, setXPlayerWinCounter] = useState(0);
+    const [oPlayerWinCounter, setOPlayerWinCounter] = useState(0);
 
     useEffect(() => { // game checker
         if (calculateWin(board)) {
-            alert(`player ${calculateWin(board)} win`);
+            calculateWin(board) === "X" ? setXPlayerWinCounter(xPlayerWinCounter + 1) : setOPlayerWinCounter(oPlayerWinCounter + 1);
             resetGame();
         } else if (turnNumber === 9) {
             alert("draw");
@@ -46,11 +48,21 @@ const TicTacToe = () => {
     };
 
     return (
-        <div className="grid">
-            {Array(9).fill("square").map((element, index) => {
-                return <button key={index} onClick={() => clickToSquare(index)} className={element}><div className={board[index] || ""} /></button>
-            })}
-        </div>
+        <>
+            <div className="header">
+                <h1 className="header__title">Tic-Tac-Toe</h1>
+                <h2 className="header__subtitle">Score</h2>
+                <dl className="header__content">
+                    <dt className="content__titile content__titile--X" /><dd className="content__subtitle content__subtitle--x">{xPlayerWinCounter}</dd>
+                    <dt className="content__titile content__titile--O" /><dd className="content__subtitle">{oPlayerWinCounter}</dd>
+                </dl>
+            </div>
+            <div className="grid">
+                {Array(9).fill("grid__square").map((element, index) => {
+                    return <button key={index} onClick={() => clickToSquare(index)} className={element}><div className={board[index] || ""} /></button>
+                })}
+            </div>
+        </>
     );
 };
 
