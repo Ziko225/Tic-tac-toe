@@ -1,0 +1,18 @@
+.square {
+  border-radius: 0px;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  background-color: #333;
+  grid-template-columns: 120px 120px 120px;
+  grid-template-rows: 120px 120px 120px;
+}
+
+.X {}
+
+.O {}

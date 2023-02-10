@@ -1,14 +1,5 @@
-.square {
-  border-radius: 0px;
-  cursor: pointer;
-}
-
-.square:hover {
-  background-color: grey;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 50px 50px 50px;
-  grid-template-rows: 50px 50px 50px;
+.main{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
