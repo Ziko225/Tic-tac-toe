@@ -48,10 +48,10 @@ const TicTacToe = () => {
     return (
         <div className="grid">
             {Array(9).fill("square").map((element, index) => {
-                return <button key={index} onClick={() => clickToSquare(index)} className={`${element} ${board[index]} `}>{board[index]}</button>
+                return <button key={index} onClick={() => clickToSquare(index)} className={element}><div className={board[index] || ""} /></button>
             })}
         </div>
     );
-}
+};
 
 export default TicTacToe;
