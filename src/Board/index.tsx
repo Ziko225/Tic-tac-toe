@@ -10,13 +10,16 @@ const TicTacToe = () => {
     const isTurnNumberEven = turnNumber % 2 === 0;
     const [xPlayerWinCounter, setXPlayerWinCounter] = useState(0);
     const [oPlayerWinCounter, setOPlayerWinCounter] = useState(0);
+    const [gameWithAI, setGameWithAI] = useState(true);
 
     useEffect(() => { // game checker
+        if (!isTurnNumberEven && gameWithAI) {
+            aiTurn();
+        }
         if (calculateWin(board)) {
             calculateWin(board) === "X" ? setXPlayerWinCounter(xPlayerWinCounter + 1) : setOPlayerWinCounter(oPlayerWinCounter + 1);
             resetGame();
         } else if (turnNumber === 9) {
-            alert("draw");
             resetGame();
         };
     }, [board, turnNumber]);
@@ -51,11 +54,16 @@ const TicTacToe = () => {
         <>
             <div className="header">
                 <h1 className="header__title">Tic-Tac-Toe</h1>
+                <div>
+                    With AI <input checked={gameWithAI} name='aiToggle' type={"radio"} onChange={() => setGameWithAI(true)} />
+                    <input name='aiToggle' checked={!gameWithAI} type={"radio"} onChange={() => setGameWithAI(false)} /> With player
+                </div>
                 <h2 className="header__subtitle">Score</h2>
                 <dl className="header__content">
                     <dt className="content__titile content__titile--X" /><dd className="content__subtitle content__subtitle--x">{xPlayerWinCounter}</dd>
                     <dt className="content__titile content__titile--O" /><dd className="content__subtitle">{oPlayerWinCounter}</dd>
                 </dl>
+
             </div>
             <div className="grid">
                 {Array(9).fill("grid__square").map((element, index) => {
