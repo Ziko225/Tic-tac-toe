@@ -11,16 +11,20 @@ const TicTacToe = () => {
     const [xPlayerWinCounter, setXPlayerWinCounter] = useState(0);
     const [oPlayerWinCounter, setOPlayerWinCounter] = useState(0);
     const [gameWithAI, setGameWithAI] = useState(true);
+    const [gameTurn, setGameTurn] = useState(0);
+    const isGameTurnNumberEven = gameTurn % 2 === 0;
 
     useEffect(() => { // game checker
-        if (!isTurnNumberEven && gameWithAI) {
+        if (isGameTurnNumberEven? !isTurnNumberEven : isTurnNumberEven && gameWithAI) {
             aiTurn();
-        }
+        };
         if (calculateWin(board)) {
             calculateWin(board) === "X" ? setXPlayerWinCounter(xPlayerWinCounter + 1) : setOPlayerWinCounter(oPlayerWinCounter + 1);
             resetGame();
+            setGameTurn(gameTurn + 1);
         } else if (turnNumber === 9) {
             resetGame();
+            setGameTurn(gameTurn + 1);
         };
     }, [board, turnNumber]);
 
@@ -29,10 +33,10 @@ const TicTacToe = () => {
             return false;
         };
         if (isTurnNumberEven) {
-            setBoard([...board.slice(0, square), "X", ...board.slice(square + 1),]);
+            setBoard([...board.slice(0, square), isGameTurnNumberEven ? "X" : "O", ...board.slice(square + 1),]);
             setTurnNumber(turnNumber + 1);
         } else {
-            setBoard([...board.slice(0, square), "O", ...board.slice(square + 1),]);
+            setBoard([...board.slice(0, square), isGameTurnNumberEven ? "O" : "X", ...board.slice(square + 1),]);
             setTurnNumber(turnNumber + 1);
         };
     };
