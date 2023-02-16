@@ -2,9 +2,17 @@
   display: grid;
   gap: 10px;
   background-color: #333;
-  grid-template-columns: 120px 120px 120px;
-  grid-template-rows: 120px 120px 120px;
+  grid-template-columns: repeat(3, 120px);
+  grid-template-rows: repeat(3, 120px);
   margin-bottom: 20px;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: repeat(3, 90px);
+    grid-template-rows: repeat(3, 90px);
+    gap: 7px;
+  }
 }
 
 .grid__squares {
@@ -37,4 +45,17 @@
   border-radius: 50%;
   border: solid teal 11px;
   transform: scale(1);
+}
+
+@media (max-width: 760px) {
+  .X {
+    width: 50px;
+    height: 50px;
+  }
+
+  .O {
+    width: 50px;
+    height: 50px;
+    border-width: 7px;
+  }
 }
