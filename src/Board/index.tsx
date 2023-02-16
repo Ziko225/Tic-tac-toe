@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { calculateWin } from './calculateWin';
-import './index.css';
 import { minimaxAlgorithm } from './minimax';
+import "./css/header.css"
+import "./css/grid.css"
 
 const TicTacToe = () => {
     const emptyBoard = [null, null, null, null, null, null, null, null, null];
@@ -67,14 +68,10 @@ const TicTacToe = () => {
         <>
             <div className="header">
                 <h1 className="header__title">Tic-Tac-Toe</h1>
-                <div>
-                    With AI <input checked={gameWithAI} name='aiToggle' type={"radio"} onChange={() => setGameWithAI(true)} />
-                    <input name='aiToggle' checked={!gameWithAI} type={"radio"} onChange={() => setGameWithAI(false)} /> With player
-                </div>
-                <h2 className="header__subtitle">Score</h2>
                 <dl className="header__content">
-                    <dt className="content__titile content__titile--X" /><dd className="content__subtitle content__subtitle--x">{xPlayerWinCounter}</dd>
-                    <dt className="content__titile content__titile--O" /><dd className="content__subtitle">{oPlayerWinCounter}</dd>
+                    <dt className="content__titile content__titile--X" /><dd className="content__subtitle">{xPlayerWinCounter}</dd>
+                    <span className='dash'>-</span>
+                    <dd className="content__subtitle">{oPlayerWinCounter}</dd><dt className="content__titile content__titile--O" />
                 </dl>
             </div>
             <div className="grid">
@@ -87,6 +84,10 @@ const TicTacToe = () => {
                 <button onClick={() => clickToSquare(6)} className={"grid__squares"}><div className={`square ${board[6]}` || "square"} /></button>
                 <button onClick={() => clickToSquare(7)} className={"grid__squares"}><div className={`square ${board[7]}` || "square"} /></button>
                 <button onClick={() => clickToSquare(8)} className={"grid__squares"}><div className={`square ${board[8]}` || "square"} /></button>
+            </div>
+            <div className="footer">
+                With AI <input checked={gameWithAI} name='aiToggle' type={"radio"} onChange={() => setGameWithAI(true)} />
+                <input name='aiToggle' checked={!gameWithAI} type={"radio"} onChange={() => setGameWithAI(false)} /> With player
             </div>
         </>
     );

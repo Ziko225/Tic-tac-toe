@@ -1,0 +1,45 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header__title {
+    margin: 0;
+}
+
+.header__content {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    margin: 5px 0 20px;
+}
+
+.content__titile {
+    margin: 0 5px;
+}
+
+.content__titile--X {
+    color: teal;
+    width: 35px;
+    height: 35px;
+    background-size: cover;
+    background-image: url("../xPlayerIco.svg");
+}
+
+.content__titile--O {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    border: solid teal 6px
+}
+
+.content__subtitle {
+    margin: 0;
+    font-size: 30px;
+}
+
+.dash {
+    font-size: 30px;
+    margin: 0 5px;
+}
