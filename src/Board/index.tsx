@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { calculateWin } from './calculateWin';
 import { minimaxAlgorithm } from './minimax';
-import "./css/header.css"
-import "./css/grid.css"
+import "./css/header.css";
+import "./css/grid.css";
 
 const TicTacToe = () => {
     const emptyBoard = [null, null, null, null, null, null, null, null, null];
@@ -34,7 +34,7 @@ const TicTacToe = () => {
         setBoard(emptyBoard);
         setXPlayerWinCounter(0);
         setOPlayerWinCounter(0);
-    }, [gameWithAI])
+    }, [gameWithAI]);
 
     const clickToSquare = (square: number) => {
         if (board[square] || board.filter(e => e).length === 9 || calculateWin(board)) {
