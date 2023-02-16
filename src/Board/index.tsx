@@ -14,8 +14,8 @@ const TicTacToe = () => {
     const [gameTurn, setGameTurn] = useState(0);
     const isGameTurnNumberEven = gameTurn % 2 === 0;
 
-    useEffect(() => { // game checker
-        if (isGameTurnNumberEven ? !isTurnNumberEven : isTurnNumberEven && gameWithAI) {
+    useEffect(() => { // game check handler
+        if (isGameTurnNumberEven ? !isTurnNumberEven && gameWithAI : isTurnNumberEven && gameWithAI) {
             aiTurn();
         };
         if (calculateWin(board)) {
@@ -27,6 +27,13 @@ const TicTacToe = () => {
             setGameTurn(gameTurn + 1);
         };
     }, [turnNumber, board]);
+
+    useEffect(() => { // game change handler
+        setTurnNumber(0);
+        setBoard(emptyBoard);
+        setXPlayerWinCounter(0);
+        setOPlayerWinCounter(0);
+    }, [gameWithAI])
 
     const clickToSquare = (square: number) => {
         if (board[square] || board.filter(e => e).length === 9 || calculateWin(board)) {
@@ -45,7 +52,7 @@ const TicTacToe = () => {
             setTurnNumber(0);
             setBoard(emptyBoard);
             clearInterval(interval);
-        }, 1000)
+        }, 1500)
     };
 
     const aiTurn = () => {
@@ -69,12 +76,17 @@ const TicTacToe = () => {
                     <dt className="content__titile content__titile--X" /><dd className="content__subtitle content__subtitle--x">{xPlayerWinCounter}</dd>
                     <dt className="content__titile content__titile--O" /><dd className="content__subtitle">{oPlayerWinCounter}</dd>
                 </dl>
-
             </div>
             <div className="grid">
-                {Array(9).fill("grid__square").map((element, index) => {
-                    return <button key={index} onClick={() => clickToSquare(index)} className={element}><div className={board[index] || ""} /></button>
-                })}
+                <button onClick={() => clickToSquare(0)} className={"grid__squares"}><div className={`square ${board[0]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(1)} className={"grid__squares"}><div className={`square ${board[1]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(2)} className={"grid__squares"}><div className={`square ${board[2]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(3)} className={"grid__squares"}><div className={`square ${board[3]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(4)} className={"grid__squares"}><div className={`square ${board[4]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(5)} className={"grid__squares"}><div className={`square ${board[5]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(6)} className={"grid__squares"}><div className={`square ${board[6]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(7)} className={"grid__squares"}><div className={`square ${board[7]}` || "square"} /></button>
+                <button onClick={() => clickToSquare(8)} className={"grid__squares"}><div className={`square ${board[8]}` || "square"} /></button>
             </div>
         </>
     );

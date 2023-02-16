@@ -6,7 +6,7 @@
   grid-template-rows: 120px 120px 120px;
 }
 
-.grid__square {
+.grid__squares {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,17 +16,24 @@
   background-color: white;
 }
 
+.square {
+  transform: scale(0);
+  transition: 0.2s;
+}
+
 .X {
   color: teal;
   width: 80px;
   height: 80px;
   background-size: cover;
   background-image: url("./xPlayerIco.svg");
+  transform: scale(1);
 }
 
 .O {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: solid teal 11px
+  border: solid teal 11px;
+  transform: scale(1);
 }
