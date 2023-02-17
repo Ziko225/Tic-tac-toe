@@ -3,9 +3,10 @@ import { calculateWin } from './calculateWin';
 import { minimaxAlgorithm } from './minimax';
 import "./css/header.css";
 import "./css/grid.css";
+import "./css/strike.css";
 
 const TicTacToe = () => {
-    const emptyBoard = [null, null, null, null, null, null, null, null, null];
+    const emptyBoard = Array(9).fill(null);
     const [board, setBoard] = useState<Array<string | null>>(emptyBoard);
     const [turnNumber, setTurnNumber] = useState(0);
     const isTurnNumberEven = turnNumber % 2 === 0;
@@ -14,6 +15,8 @@ const TicTacToe = () => {
     const [gameWithAI, setGameWithAI] = useState(true);
     const [gameTurn, setGameTurn] = useState(0);
     const isGameTurnNumberEven = gameTurn % 2 === 0;
+    const [winCombination, setWinCombination] = useState(0);
+    const strike = winCombination ? `comb${winCombination} strike` : "strike";
 
     useEffect(() => { // game check handler
         if (isGameTurnNumberEven ? !isTurnNumberEven && gameWithAI : isTurnNumberEven && gameWithAI) {
@@ -24,6 +27,7 @@ const TicTacToe = () => {
         };
         if (calculateWin(board)) {
             calculateWin(board) === "X" ? setXPlayerWinCounter(xPlayerWinCounter + 1) : setOPlayerWinCounter(oPlayerWinCounter + 1);
+            setWinCombination(+calculateWin(board, true)!);
             setGameTurn(gameTurn + 1);
             resetGame();
         } else if (turnNumber === 9) {
@@ -54,6 +58,7 @@ const TicTacToe = () => {
     const resetGame = () => {
         const interval = setInterval(() => {
             setTurnNumber(0);
+            setWinCombination(0);
             setBoard(emptyBoard);
             clearInterval(interval);
         }, 2000)
@@ -87,6 +92,7 @@ const TicTacToe = () => {
                 <button onClick={() => clickToSquare(6)} className={"grid__squares"}><div className={`square ${board[6]}` || "square"} /></button>
                 <button onClick={() => clickToSquare(7)} className={"grid__squares"}><div className={`square ${board[7]}` || "square"} /></button>
                 <button onClick={() => clickToSquare(8)} className={"grid__squares"}><div className={`square ${board[8]}` || "square"} /></button>
+                <div className={strike}></div>
             </div>
             <div className="footer">
                 With AI <input checked={gameWithAI} name='aiToggle' type={"radio"} onChange={() => setGameWithAI(true)} />
