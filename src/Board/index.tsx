@@ -17,7 +17,10 @@ const TicTacToe = () => {
 
     useEffect(() => { // game check handler
         if (isGameTurnNumberEven ? !isTurnNumberEven && gameWithAI : isTurnNumberEven && gameWithAI) {
-            aiTurn();
+            const interval = setTimeout(() => {
+                aiTurn();
+                clearInterval(interval);
+            }, 200);
         };
         if (calculateWin(board)) {
             calculateWin(board) === "X" ? setXPlayerWinCounter(xPlayerWinCounter + 1) : setOPlayerWinCounter(oPlayerWinCounter + 1);
@@ -53,7 +56,7 @@ const TicTacToe = () => {
             setTurnNumber(0);
             setBoard(emptyBoard);
             clearInterval(interval);
-        }, 1500)
+        }, 2000)
     };
 
     const aiTurn = () => {
