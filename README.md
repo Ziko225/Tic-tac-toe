@@ -1,3 +1,7 @@
+# Tic-Tac-Toe
+## Invincible AI based on Minimax algorithm.
+![alt text](preview.png "Title")
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -29,6 +33,11 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run deploy` (gh-pages)
+Builds the app for production to the `build` folder and publishes it in gh-pages automatically.\
+Dont forget to change `"homepage"` in `package.json`.
+
+You can learn more in the [npm gh-pages](https://www.npmjs.com/package/gh-pages).
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
